@@ -1,5 +1,5 @@
-# Project Name
-Project description
+# OpCon on Docker
+This repository provides the necessary to get started with OpCon running on docker.
 
 # Disclaimer
 No Support and No Warranty are provided by SMA Technologies for this project and related material. The use of this project's files is on your own risk.
@@ -7,10 +7,13 @@ No Support and No Warranty are provided by SMA Technologies for this project and
 SMA Technologies assumes no liability for damage caused by the usage of any of the files offered here via this Github repository.
 
 # Prerequisites
-
+Docker Engine 18.06.0+ installed since our Docker Compose file format is v3.7.
 
 # Instructions
-
+Grab the docker-compose.yml file, define your environment variable via the .env file and then run the following command to start MS SQL and OpCon Server containers.
+```
+docker-compose up
+```
 
 # License
 Copyright 2019 SMA Technologies
