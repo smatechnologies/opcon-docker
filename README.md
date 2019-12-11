@@ -29,7 +29,7 @@ LICENSE_KEY= //The Opcon Key License (See instructions below)
 ### Optional (default values)
 
 ```
-CONTAINER_PREFFIX=opcon
+CONTAINER_PREFIX=opcon
 DATABASE_NAME=OpConxps
 DATABASE_USER=sa //This Docker Compose doesn't create specific user for now
 LICENSE_NAME=0 //Without the ".lic" extension
