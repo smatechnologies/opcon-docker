@@ -34,7 +34,7 @@ DATABASE_NAME=OpConxps
 DATABASE_USER=sa //This Docker Compose doesn't create specific user for now
 LICENSE_NAME=0 //Without the ".lic" extension
 VERSION_MSSQL=2017-latest
-VERSION_OPCON=19.1.0.10211
+VERSION_OPCON=19.1.0.10243
 PORT_API=9010
 PORT_SM=8181
 ```

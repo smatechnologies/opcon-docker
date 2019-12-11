@@ -16,10 +16,10 @@ services:
     hostname: ${CONTAINER_PREFIX:-opcon}-mssql
     depends_on:
       - config
-#Not possible to set volume on Windows for now... It's a known Mssql Container issue => So, if you remove the mssql container, you will remove the database...
-#Uncomment these 2 lines on Linux
-#    volumes:
-#      - $VOLUME_PATH/mssql:/var/opt/mssql
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /var/opt/mssql
 #Uncomment these 2 lines to publish mssql port
 #    ports:
 #      - "1433:1433"
@@ -28,7 +28,7 @@ services:
       - SA_PASSWORD=${DATABASE_PASSWORD:?DATABASE_PASSWORD}
     restart: always
   opcon:
-    image: smaengineering.azurecr.io/opcon:${VERSION_OPCON:-19.1.0.10211}
+    image: smaengineering.azurecr.io/opcon:${VERSION_OPCON:-19.1.0.10243}
     container_name: ${CONTAINER_PREFIX:-opcon}-core
     hostname: ${CONTAINER_PREFIX:-opcon}-core
     depends_on:
@@ -49,3 +49,5 @@ services:
       - "${PORT_API:-9010}:9010"
       - "${PORT_SM:-8181}:8181"
     restart: always
+volumes:
+  dbdata:
