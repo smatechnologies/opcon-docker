@@ -9,7 +9,7 @@ services:
     hostname: ${CONTAINER_PREFIX:-opcon}-config
     volumes:
       - ${VOLUME_PATH:?VOLUME_PATH}/core/config:/mnt
-    command: [ "/bin/sh", "-c", "apt-get update && apt-get install -y --no-install-recommends xxd && rm -rf /var/lib/apt/lists/* && echo '${LICENSE_KEY:?LICENSE_KEY}' | xxd -r -p > /mnt/${LICENSE_NAME:-0}.lic && echo 'Server=${CONTAINER_PREFIX:-opcon}-mssql; Database=${DATABASE_NAME:-OpConxps}; User Id=${DATABASE_USER:-sa}; Password=${DATABASE_PASSWORD_ENCRYPTED:?DATABASE_PASSWORD_ENCRYPTED};' > /mnt/SMAODBCConfiguration.DAT" ]
+    command: [ "/bin/sh", "-c", "test -f initialized || (touch initialized && echo 'Server=${CONTAINER_PREFIX:-opcon}-mssql; Database=${DATABASE_NAME:-OpConxps}; User Id=${DATABASE_USER:-sa}; Password=${DATABASE_PASSWORD_ENCRYPTED:?DATABASE_PASSWORD_ENCRYPTED};' > /mnt/SMAODBCConfiguration.DAT && apt-get update && apt-get install -y --no-install-recommends xxd && rm -rf /var/lib/apt/lists/* && echo '${LICENSE_KEY:?LICENSE_KEY}' | xxd -r -p > /mnt/${LICENSE_NAME:-0}.lic)" ]
   mssql:
     image: mcr.microsoft.com/mssql/server:${VERSION_MSSQL:-2017-latest}
     container_name: ${CONTAINER_PREFIX:-opcon}-mssql
