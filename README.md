@@ -15,6 +15,35 @@ Grab the docker-compose.yml file, define your environment variable via the .env 
 docker-compose up
 ```
 
+## Environment Variables
+
+### Madantory
+
+```
+VOLUME_PATH=C:/opcon //Location of all the container data
+DATABASE_PASSWORD= //Opcon DataBase Password
+DATABASE_PASSWORD_ENCRYPTED= //Opcon DataBase Encrypted Password
+LICENSE_KEY= //The Opcon Key License (See instructions below)
+```
+
+### Optional (default values)
+
+```
+CONTAINER_PREFFIX=opcon
+DATABASE_NAME=OpConxps
+DATABASE_USER=sa //This Docker Compose doesn't create specific user for now
+LICENSE_NAME=0 //Without the ".lic" extension
+VERSION_MSSQL=2017-latest
+VERSION_OPCON=19.1.0.10211
+PORT_API=9010
+PORT_SM=8181
+```
+
+## OpCon License Key String
+
+To generate key from file (Linux):
+`cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
+
 # License
 Copyright 2019 SMA Technologies
 

@@ -9,7 +9,7 @@ services:
     hostname: ${CONTAINER_PREFFIX:-opcon}-config
     volumes:
       - ${VOLUME_PATH:?VOLUME_PATH}/core/config:/mnt
-    command: [ "/bin/sh", "-c", "apt-get update && apt-get install -y --no-install-recommends xxd && rm -rf /var/lib/apt/lists/* && echo '${LICENSE:?LICENSE}' | xxd -r -p > /mnt/${LICENSE_NAME:-0}.lic && echo 'Server=${CONTAINER_PREFFIX:-opcon}-mssql; Database=${DATABASE_NAME:-OpConxps}; User Id=${DATABASE_USER:-sa}; Password=${DATABASE_PASSWORD_ENCRYPTED:?DATABASE_PASSWORD_ENCRYPTED};' > /mnt/SMAODBCConfiguration.DAT" ]
+    command: [ "/bin/sh", "-c", "apt-get update && apt-get install -y --no-install-recommends xxd && rm -rf /var/lib/apt/lists/* && echo '${LICENSE_KEY:?LICENSE_KEY}' | xxd -r -p > /mnt/${LICENSE_NAME:-0}.lic && echo 'Server=${CONTAINER_PREFFIX:-opcon}-mssql; Database=${DATABASE_NAME:-OpConxps}; User Id=${DATABASE_USER:-sa}; Password=${DATABASE_PASSWORD_ENCRYPTED:?DATABASE_PASSWORD_ENCRYPTED};' > /mnt/SMAODBCConfiguration.DAT" ]
   mssql:
     image: mcr.microsoft.com/mssql/server:${VERSION_MSSQL:-2017-latest}
     container_name: ${CONTAINER_PREFFIX:-opcon}-mssql
@@ -46,6 +46,6 @@ services:
       - $VOLUME_PATH/core/log:/app/log
     command: [ "-c", "-d", "-u", "${DATABASE_USER:-sa}", "-p", "$DATABASE_PASSWORD" ]
     ports:
-      - "${API_PORT:-9010}:9010"
-      - "${SM_PORT:-8181}:8181"
+      - "${PORT_API:-9010}:9010"
+      - "${PORT_SM:-8181}:8181"
     restart: always
