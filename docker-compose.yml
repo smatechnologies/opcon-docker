@@ -1,0 +1,51 @@
+﻿version: '3.7'
+networks:
+  default:
+      name: ${CONTAINER_PREFFIX:-opcon}-network
+services:
+  config:
+    image: debian:stable-slim
+    container_name: ${CONTAINER_PREFFIX:-opcon}-config
+    hostname: ${CONTAINER_PREFFIX:-opcon}-config
+    volumes:
+      - ${VOLUME_PATH:?VOLUME_PATH}/core/config:/mnt
+    command: [ "/bin/sh", "-c", "apt-get update && apt-get install -y --no-install-recommends xxd && rm -rf /var/lib/apt/lists/* && echo '${LICENSE:?LICENSE}' | xxd -r -p > /mnt/${LICENSE_NAME:-0}.lic && echo 'Server=${CONTAINER_PREFFIX:-opcon}-mssql; Database=${DATABASE_NAME:-OpConxps}; User Id=${DATABASE_USER:-sa}; Password=${DATABASE_PASSWORD_ENCRYPTED:?DATABASE_PASSWORD_ENCRYPTED};' > /mnt/SMAODBCConfiguration.DAT" ]
+  mssql:
+    image: mcr.microsoft.com/mssql/server:${VERSION_MSSQL:-2017-latest}
+    container_name: ${CONTAINER_PREFFIX:-opcon}-mssql
+    hostname: ${CONTAINER_PREFFIX:-opcon}-mssql
+    depends_on:
+      - config
+#Not possible to set volume on Windows for now... It's a known Mssql Container issue => So, if you remove the mssql container, you will remove the database...
+#Uncomment these 2 lines on Linux
+#    volumes:
+#      - $VOLUME_PATH/mssql:/var/opt/mssql
+#Uncomment these 2 lines to publish mssql port
+#    ports:
+#      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${DATABASE_PASSWORD:?DATABASE_PASSWORD}
+    restart: always
+  opcon:
+    image: smaengineering.azurecr.io/opcon:${VERSION_OPCON:-19.1.0.10211}
+    container_name: ${CONTAINER_PREFFIX:-opcon}-core
+    hostname: ${CONTAINER_PREFFIX:-opcon}-core
+    depends_on:
+      - mssql
+    environment:
+      - DatabaseName=${DATABASE_NAME:-OpConxps}
+      - OpConxpsDBServerName=${CONTAINER_PREFFIX:-opcon}-mssql
+      - OpConxpsSQLInstance=${CONTAINER_PREFFIX:-opcon}-mssql
+      - DBLogicalDataFilename=${DATABASE_NAME:-OpConxps}_Data
+      - DBLogicalLogFilename=${DATABASE_NAME:-OpConxps}_Log
+      - PathToDatabaseDataFile=/var/opt/mssql/data/${DATABASE_NAME:-OpConxps}_Data.MDF
+      - PathToDatabaseLogFile=/var/opt/mssql/data/${DATABASE_NAME:-OpConxps}_Log.LDF
+    volumes:
+      - $VOLUME_PATH/core/config:/app/config
+      - $VOLUME_PATH/core/log:/app/log
+    command: [ "-c", "-d", "-u", "${DATABASE_USER:-sa}", "-p", "$DATABASE_PASSWORD" ]
+    ports:
+      - "${API_PORT:-9010}:9010"
+      - "${SM_PORT:-8181}:8181"
+    restart: always
