@@ -1,5 +1,5 @@
 # OpCon on Docker
-This repository provides the necessary to get started with OpCon running on docker.
+This repository provides a [docker compose](https://docs.docker.com/compose/) file to bootstrap the process of spinning up an working OpCon environment.
 
 # Disclaimer
 No Support and No Warranty are provided by SMA Technologies for this project and related material. The use of this project's files is on your own risk.
