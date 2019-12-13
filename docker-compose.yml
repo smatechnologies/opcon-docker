@@ -8,7 +8,9 @@ services:
     container_name: ${ContainerPrefix:-opcon}-mssql
     hostname: ${ContainerPrefix:-opcon}-mssql
     volumes:
-      - opcon-data: /var/opt/mssql
+      - type: volume
+        source: opcon-data
+        target: /var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${DatabasePassword:?DatabasePassword}
