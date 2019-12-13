@@ -20,23 +20,23 @@ docker-compose up
 ### Madantory
 
 ```
-VOLUME_PATH=C:/opcon //Location of all the container data
-DATABASE_PASSWORD= //Opcon DataBase Password
-DATABASE_PASSWORD_ENCRYPTED= //Opcon DataBase Encrypted Password
-LICENSE_KEY= //The Opcon Key License (See instructions below)
+VolumePath=C:/opcon-docker //Location of all the container data
+DatabasePassword= //Opcon DataBase Password
+DatabasePasswordEncrypted= //Opcon DataBase Encrypted Password
+LicenseKey= //The Opcon Key License (See instructions below)
 ```
 
 ### Optional (default values)
 
 ```
-CONTAINER_PREFIX=opcon
-DATABASE_NAME=OpConxps
-DATABASE_USER=sa //This Docker Compose doesn't create specific user for now
-LICENSE_NAME=0 //Without the ".lic" extension
-VERSION_MSSQL=2017-latest
-VERSION_OPCON=19.1.0.10243
-PORT_API=9010
-PORT_SM=8181
+ContainerPrefix=opcon
+DatabaseName=OpConxps
+DatabaseUser=sa //This Docker Compose doesn't create specific user for now
+LicenseName=0 //Without the ".lic" extension
+MssqlVersion=2017-latest
+OpconVersion=19.1.0-latest
+SmWebSsl=9010
+SmWebPort=8181
 ```
 
 ## OpCon License Key String

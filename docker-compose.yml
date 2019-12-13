@@ -3,13 +3,6 @@ networks:
   default:
     name: ${ContainerPrefix:-opcon}-network
 services:
-  config:
-    image: debian:stable-slim
-    container_name: ${ContainerPrefix:-opcon}-config
-    hostname: ${ContainerPrefix:-opcon}-config
-    volumes:
-      - ${$VolumePath:?$VolumePath}/core/config:/mnt
-    command: [ "/bin/sh", "-c", "test -f initialized || (touch initialized && echo 'Server=${ContainerPrefix:-opcon}-mssql; Database=${DatabaseName:-OpConxps}; User Id=${DatabaseUser:-sa}; Password=${DatabasePasswordEncrypted:?DatabasePasswordEncrypted};' > /mnt/SMAODBCConfiguration.DAT && apt-get update && apt-get install -y --no-install-recommends xxd && rm -rf /var/lib/apt/lists/* && echo '${LicenseKey:?LicenseKey}' | xxd -r -p > /mnt/${LicenseName:-0}.lic)" ]
   mssql:
     image: mcr.microsoft.com/mssql/server:${MssqlVersion:-2017-latest}
     container_name: ${ContainerPrefix:-opcon}-mssql
@@ -21,11 +14,10 @@ services:
       - SA_PASSWORD=${DatabasePassword:?DatabasePassword}
     restart: always
   opcon:
-    image: smaengineering.azurecr.io/opcon:${OpconVersion:-19.1.0.10243}
+    image: smaengineering.azurecr.io/opcon:${OpconVersion:-19.1.0-latest}
     container_name: ${ContainerPrefix:-opcon}-core
     hostname: ${ContainerPrefix:-opcon}-core
     depends_on:
-      - config
       - mssql
     environment:
       - DatabaseName=${DatabaseName:-OpConxps}
@@ -35,13 +27,15 @@ services:
       - DBLogicalLogFilename=${DatabaseName:-OpConxps}_Log
       - PathToDatabaseDataFile=/var/opt/mssql/data/${DatabaseName:-OpConxps}_Data.MDF
       - PathToDatabaseLogFile=/var/opt/mssql/data/${DatabaseName:-OpConxps}_Log.LDF
+      - SmWebSsl=${SmWebSsl}
+      - SmWebPort=${SmWebPort}
     volumes:
       - $VolumePath/core/config:/app/config
       - $VolumePath/core/log:/app/log
-    command: [ "-c", "-d", "-u", "${DatabaseUser:-sa}", "-p", "${DatabasePassword}" ]
+    command: [ "-c", "-d", "-u", "${DatabaseUser:-sa}", "-p", "${DatabasePassword}", "-P", "${DatabasePasswordEncrypted}", "-l", "${LicenseKey}", "-L", "${LicenseName:-0}" ]
     ports:
       - "${ApiPort:-9010}:9010"
-      - "${SmWebPort:-8181}:8181"
+      - "${SmWebPort:-8181}:${SmWebPort:-8181}"
     restart: always
 volumes:
   opcon-data:
