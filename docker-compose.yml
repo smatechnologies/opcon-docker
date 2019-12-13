@@ -1,53 +1,47 @@
 ﻿version: '3.7'
 networks:
   default:
-      name: ${CONTAINER_PREFIX:-opcon}-network
+    name: ${ContainerPrefix:-opcon}-network
 services:
   config:
     image: debian:stable-slim
-    container_name: ${CONTAINER_PREFIX:-opcon}-config
-    hostname: ${CONTAINER_PREFIX:-opcon}-config
+    container_name: ${ContainerPrefix:-opcon}-config
+    hostname: ${ContainerPrefix:-opcon}-config
     volumes:
-      - ${VOLUME_PATH:?VOLUME_PATH}/core/config:/mnt
-    command: [ "/bin/sh", "-c", "test -f initialized || (touch initialized && echo 'Server=${CONTAINER_PREFIX:-opcon}-mssql; Database=${DATABASE_NAME:-OpConxps}; User Id=${DATABASE_USER:-sa}; Password=${DATABASE_PASSWORD_ENCRYPTED:?DATABASE_PASSWORD_ENCRYPTED};' > /mnt/SMAODBCConfiguration.DAT && apt-get update && apt-get install -y --no-install-recommends xxd && rm -rf /var/lib/apt/lists/* && echo '${LICENSE_KEY:?LICENSE_KEY}' | xxd -r -p > /mnt/${LICENSE_NAME:-0}.lic)" ]
+      - ${$VolumePath:?$VolumePath}/core/config:/mnt
+    command: [ "/bin/sh", "-c", "test -f initialized || (touch initialized && echo 'Server=${ContainerPrefix:-opcon}-mssql; Database=${DatabaseName:-OpConxps}; User Id=${DatabaseUser:-sa}; Password=${DatabasePasswordEncrypted:?DatabasePasswordEncrypted};' > /mnt/SMAODBCConfiguration.DAT && apt-get update && apt-get install -y --no-install-recommends xxd && rm -rf /var/lib/apt/lists/* && echo '${LicenseKey:?LicenseKey}' | xxd -r -p > /mnt/${LicenseName:-0}.lic)" ]
   mssql:
-    image: mcr.microsoft.com/mssql/server:${VERSION_MSSQL:-2017-latest}
-    container_name: ${CONTAINER_PREFIX:-opcon}-mssql
-    hostname: ${CONTAINER_PREFIX:-opcon}-mssql
-    depends_on:
-      - config
+    image: mcr.microsoft.com/mssql/server:${MssqlVersion:-2017-latest}
+    container_name: ${ContainerPrefix:-opcon}-mssql
+    hostname: ${ContainerPrefix:-opcon}-mssql
     volumes:
-      - type: volume
-        source: dbdata
-        target: /var/opt/mssql
-#Uncomment these 2 lines to publish mssql port
-#    ports:
-#      - "1433:1433"
+      - opcon-data: /var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=${DATABASE_PASSWORD:?DATABASE_PASSWORD}
+      - SA_PASSWORD=${DatabasePassword:?DatabasePassword}
     restart: always
   opcon:
-    image: smaengineering.azurecr.io/opcon:${VERSION_OPCON:-19.1.0.10243}
-    container_name: ${CONTAINER_PREFIX:-opcon}-core
-    hostname: ${CONTAINER_PREFIX:-opcon}-core
+    image: smaengineering.azurecr.io/opcon:${OpconVersion:-19.1.0.10243}
+    container_name: ${ContainerPrefix:-opcon}-core
+    hostname: ${ContainerPrefix:-opcon}-core
     depends_on:
+      - config
       - mssql
     environment:
-      - DatabaseName=${DATABASE_NAME:-OpConxps}
-      - OpConxpsDBServerName=${CONTAINER_PREFIX:-opcon}-mssql
-      - OpConxpsSQLInstance=${CONTAINER_PREFIX:-opcon}-mssql
-      - DBLogicalDataFilename=${DATABASE_NAME:-OpConxps}_Data
-      - DBLogicalLogFilename=${DATABASE_NAME:-OpConxps}_Log
-      - PathToDatabaseDataFile=/var/opt/mssql/data/${DATABASE_NAME:-OpConxps}_Data.MDF
-      - PathToDatabaseLogFile=/var/opt/mssql/data/${DATABASE_NAME:-OpConxps}_Log.LDF
+      - DatabaseName=${DatabaseName:-OpConxps}
+      - OpConxpsDBServerName=${ContainerPrefix:-opcon}-mssql
+      - OpConxpsSQLInstance=${ContainerPrefix:-opcon}-mssql
+      - DBLogicalDataFilename=${DatabaseName:-OpConxps}_Data
+      - DBLogicalLogFilename=${DatabaseName:-OpConxps}_Log
+      - PathToDatabaseDataFile=/var/opt/mssql/data/${DatabaseName:-OpConxps}_Data.MDF
+      - PathToDatabaseLogFile=/var/opt/mssql/data/${DatabaseName:-OpConxps}_Log.LDF
     volumes:
-      - $VOLUME_PATH/core/config:/app/config
-      - $VOLUME_PATH/core/log:/app/log
-    command: [ "-c", "-d", "-u", "${DATABASE_USER:-sa}", "-p", "$DATABASE_PASSWORD" ]
+      - $VolumePath/core/config:/app/config
+      - $VolumePath/core/log:/app/log
+    command: [ "-c", "-d", "-u", "${DatabaseUser:-sa}", "-p", "${DatabasePassword}" ]
     ports:
-      - "${PORT_API:-9010}:9010"
-      - "${PORT_SM:-8181}:8181"
+      - "${ApiPort:-9010}:9010"
+      - "${SmWebPort:-8181}:8181"
     restart: always
 volumes:
-  dbdata:
+  opcon-data:
