@@ -27,7 +27,7 @@ DatabasePassword= //Opcon DataBase Password
 ### Recommended
 
 ```
-DatabasePasswordEncrypted= //Opcon DataBase Encrypted Password. Necessary to create the "SMAODBCConfiguration.DAT" configuration file
+DatabasePasswordEncrypted= //Opcon DataBase Encrypted Password. Necessary to create the "SMAODBCConfiguration.DAT" configuration file (See instructions below)
 LicenseKey= //The Opcon Key License (See instructions below). Necessary to apply the license
 ```
 
@@ -44,10 +44,17 @@ SmWebSsl=9010
 SmWebPort=8181
 ```
 
+## Encrypted Database Password
+
+To generate:
+- Open the Enterprise Manager
+- Menu EnterpriseManager/Password Update/Password Encryption Tool
+
 ## OpCon License Key String
 
-To generate key from file (Linux):
-`cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
+To generate key from file:
+- Linux: `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
+- Windows `certutil -encodehex <LIC_FILE> licensestring.txt 12`
 
 ## Azure App Service
 
