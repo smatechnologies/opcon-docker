@@ -1,0 +1,36 @@
+#Replace #DATABASE_PASSWORD#, #DATABASE_PASSWORD_ENCRYPTED#, #LICENSE_KEY# and #LICENSE_NAME#
+version: '3.7'
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    volumes:
+      - type: volume
+        source: sm191-data-volume
+        target: /var/opt/mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=#DATABASE_PASSWORD#
+    restart: always
+  opcon:
+    image: smaengineering.azurecr.io/opcon:19.1.0-latest
+    depends_on:
+      - mssql
+    environment:
+      - DatabaseName=OpConxps
+      - OpConxpsDBServerName=mssql
+      - OpConxpsSQLInstance=mssql
+      - DBLogicalDataFilename=OpConxps_Data
+      - DBLogicalLogFilename=OpConxps_Log
+      - PathToDatabaseDataFile=/var/opt/mssql/data/OpConxps_Data.MDF
+      - PathToDatabaseLogFile=/var/opt/mssql/data/OpConxps_Log.LDF
+      - SmWebSsl=false
+      - SmWebPort=80
+    volumes:
+      - sm191-config-mount:/app/config
+      - sm191-log-mount:/app/log
+    command: [ "-c", "-d", "-u", "sa", "-p", "#DATABASE_PASSWORD#", "-P", "#DATABASE_PASSWORD_ENCRYPTED#", "-l", "#LICENSE_KEY#", "-L", "#LICENSE_NAME#" ]
+    ports:
+      - "80:80"
+    restart: always
+volumes:
+  sm191-data-volume:

@@ -44,6 +44,12 @@ SmWebPort=8181
 To generate key from file (Linux):
 `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
 
+## Azure App Service
+
+Docker Compose: [docker-compose-azure-app-service.yml](docker-compose-azure-app-service.yml)
+
+ How to deploy Opcon App Service on Azure Portal: [Docker Compose Azure App Service Documentation](doc/docker-compose-azure-app-service.md)
+
 # License
 Copyright 2019 SMA Technologies
 
