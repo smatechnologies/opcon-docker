@@ -40,7 +40,8 @@ DatabaseUser=sa //This Docker Compose doesn't create specific user for now
 LicenseName=0 //Without the ".lic" extension
 MssqlVersion=2017-latest
 OpconVersion=19.1.0-latest
-SmWebSsl=9010
+ApiPort=9010
+SmWebSsl=true
 SmWebPort=8181
 ```
 
