@@ -57,6 +57,12 @@ To generate key from file:
 - Linux: `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
 - Windows `certutil -encodehex <LIC_FILE> licensestring.txt 12`
 
+## Without Docker Compose
+
+- Open docker.sh
+- Set Environment variables: DOCKER_PATH, DatabasePassword, DatabasePasswordEncrypted and LicenseKey (Optional: DOCKER_OPCON_IMAGE_VERSION, DOCKER_MSSQL_IMAGE_VERSION, DataBaseName and LicenseName)
+- Launch the docker.sh script
+
 ## Azure App Service
 
 Docker Compose: [docker-compose-azure-app-service.yml](docker-compose-azure-app-service.yml)
