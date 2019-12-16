@@ -22,8 +22,13 @@ docker-compose up
 ```
 VolumePath=C:/opcon-docker //Location of all the container data
 DatabasePassword= //Opcon DataBase Password
-DatabasePasswordEncrypted= //Opcon DataBase Encrypted Password
-LicenseKey= //The Opcon Key License (See instructions below)
+```
+
+### Recommended
+
+```
+DatabasePasswordEncrypted= //Opcon DataBase Encrypted Password. Necessary to create the "SMAODBCConfiguration.DAT" configuration file
+LicenseKey= //The Opcon Key License (See instructions below). Necessary to apply the license
 ```
 
 ### Optional (default values)
