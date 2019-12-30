@@ -1,5 +1,5 @@
 # OpCon on Docker
-This repository provides a [docker compose](https://docs.docker.com/compose/) file to bootstrap the process of spinning up an working OpCon environment.
+This repository provides a [docker compose](https://docs.docker.com/compose/) file to bootstrap the process of spinning up working OpCon environments.
 
 # Disclaimer
 No Support and No Warranty are provided by SMA Technologies for this project and related material. The use of this project's files is on your own risk.
@@ -10,10 +10,11 @@ SMA Technologies assumes no liability for damage caused by the usage of any of t
 Docker Engine 18.06.0+ installed since our Docker Compose file format is v3.7.
 
 # Instructions
-Grab the docker-compose.yml file, define your environment variable via the .env file and then run the following command to start MS SQL and OpCon Server containers.
+Grab the **docker-compose.yml** file, define your environment variables via the **.env** file and then run the following command to start MS SQL and OpCon Server containers.
 ```
 docker-compose up
 ```
+Note: *You must be on the same directory as your docker-compose.yml file*
 
 ## Environment Variables
 
@@ -47,21 +48,21 @@ SmWebPort=8181
 
 ## Encrypted Database Password
 
-To generate:
-- Open the Enterprise Manager
+How to encrypte a password:
+- Open Enterprise Manager application
 - Menu EnterpriseManager/Password Update/Password Encryption Tool
 
 ## OpCon License Key String
 
-To generate key from file:
+How yo generate key from file:
 - Linux: `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
 - Windows `certutil -encodehex <LIC_FILE> licensestring.txt 12`
 
 ## Without Docker Compose
 
 - Open docker.sh
-- Set Environment variables: DOCKER_PATH, DatabasePassword, DatabasePasswordEncrypted and LicenseKey (Optional: DOCKER_OPCON_IMAGE_VERSION, DOCKER_MSSQL_IMAGE_VERSION, DataBaseName and LicenseName)
-- Launch the docker.sh script
+- Set the following Environment Variables: DOCKER_PATH, DatabasePassword, DatabasePasswordEncrypted and LicenseKey (Optional: DOCKER_OPCON_IMAGE_VERSION, DOCKER_MSSQL_IMAGE_VERSION, DataBaseName and LicenseName)
+- Run the docker.sh script
 
 ## Azure App Service
 
