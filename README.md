@@ -54,7 +54,7 @@ How to encrypte a password:
 
 ## OpCon License Key String
 
-How yo generate key from file:
+How to generate key from file:
 - Linux: `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
 - Windows `certutil -encodehex <LIC_FILE> licensestring.txt 12`
 
