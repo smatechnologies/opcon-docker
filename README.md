@@ -44,6 +44,7 @@ OpconVersion=19.1.0-latest
 ApiPort=9010 //Exposed Api Port; The Internal Container port (Localhost) stay 9010
 SmWebSsl=true
 SmWebPort=8181
+MssqlPort=1433
 ```
 
 ## Encrypted Database Password
