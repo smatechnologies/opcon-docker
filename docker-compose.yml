@@ -18,7 +18,7 @@ services:
       - "${MssqlPort:-1433}:1433"
     restart: always
   opcon:
-    image: smaengineering.azurecr.io/opcon:${OpconVersion:-19.1.0-latest}
+    image: smaengineering.azurecr.io/opcon:${OpconVersion:-19.1.1-latest}
     container_name: ${ContainerPrefix:-opcon}-core
     hostname: ${ContainerPrefix:-opcon}-core
     depends_on:
