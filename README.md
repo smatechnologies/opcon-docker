@@ -1,6 +1,9 @@
 # OpCon on Docker
 This repository provides a [docker compose](https://docs.docker.com/compose/) file to bootstrap the process of spinning up working OpCon environments.
 
+To access the full OpCon docker image documentation (Arguments, Environment Variables...):
+- [OpCon Image Documentation](doc/docker.md)
+
 # Disclaimer
 No Support and No Warranty are provided by SMA Technologies for this project and related material. The use of this project's files is on your own risk.
 
@@ -48,7 +51,27 @@ SmWebPort=8181
 MssqlPort=1433
 ```
 
-# Conversions
+# Alternative Deployments
+
+## Docker Run (Without Docker Compose)
+See an example below on how to use the Docker command directly :
+```
+docker run -d --name "opcon-core" --hostname "opcon-core" --restart=always -e "DatabaseName=OpCon" -e "OpConxpsDBServerName=opcon-mssql" -e "OpConxpsSQLInstance=opcon-mssql" -e "DBLogicalDataFilename=OpCon_Data" -e "DBLogicalLogFilename=OpCon_Log" -e "PathToDatabaseDataFile=/var/opt/mssql/data/OpCon_Data.MDF" -e "PathToDatabaseLogFile=/var/opt/mssql/data/OpCon_Log.LDF" -v /var/opt/opcon/config:/app/config -v /var/opt/opcon/log:/app/log -p 9010:9010 -p 8181:8181 smaengineering.azurecr.io/opcon:19.1.0-latest -t "UTC" -c -d -u "sa" -p "DATABASE_PASSWORD" -P "DATABASE_PASSWORD_ENCRYPTED" -l "HEXA_LIC_KEY" -L "LICENSE_ID"
+```
+Full docker image documentation (Arguments, Environment Variables...):
+- [OpCon Image Documentation](doc/docker.md)
+
+You can also take a look at the **[docker.sh](docker.sh)** which uses the docker command directly.
+
+## Azure App Service
+
+### How to deploy Opcon App Service on Azure Portal
+- [Docker Compose Azure App Service Documentation](doc/docker-compose-azure-app-service.md)
+
+### Docker Compose File for Azure App
+- [docker-compose-azure-app-service.yml](docker-compose-azure-app-service.yml)
+
+# Miscellaneous
 
 ## Encrypted Database Password
 
@@ -61,21 +84,6 @@ How to encrypte a password:
 How to generate key from file:
 - Linux: `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
 - Windows `certutil -encodehex <LIC_FILE> licensestring.txt 12`
-
-# Alternative Deployments
-
-## Docker Run (Without Docker Compose)
-
-[Docker Documentation](doc/docker.md)
-
-## Azure App Service
-
-### How to deploy Opcon App Service on Azure Portal
-[Docker Compose Azure App Service Documentation](doc/docker-compose-azure-app-service.md)
-
-### Docker Compose File
- 
-[docker-compose-azure-app-service.yml](docker-compose-azure-app-service.yml)
 
 # License
 Copyright 2019 SMA Technologies
