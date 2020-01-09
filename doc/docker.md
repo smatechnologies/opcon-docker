@@ -34,3 +34,7 @@
 | PathToDatabaseLogFile  |               | Path of the Database Log File <br> i.e.: /var/opt/mssql/data/OpConxps_Log.LDF |
 | SmWebSsl               | true          | Enable Solution Manager SSL <br> Applied only the first start after the container creation |
 | SmWebPort              | 8181          | Solution Manager Port <br> Applied only the first start after the container creation |
+
+## Example
+
+See [docker.sh](../docker.sh)

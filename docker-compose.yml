@@ -36,7 +36,7 @@ services:
     volumes:
       - $VolumePath/core/config:/app/config
       - $VolumePath/core/log:/app/log
-    command: [ "-c", "-d", "-u", "${DatabaseUser:-sa}", "-p", "${DatabasePassword}", "-P", "${DatabasePasswordEncrypted}", "-l", "${LicenseKey}", "-L", "${LicenseName:-0}" ]
+    command: [ "-t", "${Timezone:-UTC}", "-c", "-d", "-u", "${DatabaseUser:-sa}", "-p", "${DatabasePassword}", "-P", "${DatabasePasswordEncrypted}", "-l", "${LicenseKey}", "-L", "${LicenseName:-0}" ]
     ports:
       - "${ApiPort:-9010}:9010"
       - "${SmWebPort:-8181}:${SmWebPort:-8181}"
