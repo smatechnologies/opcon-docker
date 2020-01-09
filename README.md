@@ -7,10 +7,11 @@ No Support and No Warranty are provided by SMA Technologies for this project and
 SMA Technologies assumes no liability for damage caused by the usage of any of the files offered here via this Github repository.
 
 # Prerequisites
-Docker Engine 18.06.0+ installed since our Docker Compose file format is v3.7.
+- Docker Engine 18.06.0+
+- Docker Compose 1.22+ (Compose File Format 3.7)
 
-# Instructions
-Grab the **docker-compose.yml** file, define your environment variables via the **.env** file and then run the following command to start MS SQL and OpCon Server containers.
+# Docker-Compose Instructions
+Grab the **[docker-compose.yml](docker-compose.yml)** file, define your environment variables via the **.env** file and then run the following command to start MS SQL and OpCon Server containers.
 ```
 docker-compose up
 ```
@@ -21,15 +22,15 @@ Note: *You must be on the same directory as your docker-compose.yml file*
 ### Madantory
 
 ```
-VolumePath=C:/opcon-docker //Location of all the container data
+VolumePath=c:/opcon-docker //Location of all the container data
 DatabasePassword= //Opcon DataBase Password
 ```
 
 ### Recommended
 
 ```
-DatabasePasswordEncrypted= //Opcon DataBase Encrypted Password. Necessary to create the "SMAODBCConfiguration.DAT" configuration file (See instructions below)
-LicenseKey= //The Opcon Key License (See instructions below). Necessary to apply the license
+DatabasePasswordEncrypted= //Opcon DataBase Encrypted Password. Necessary to create the "SMAODBCConfiguration.DAT" configuration file (See instructions below - Conversions/Encrypted Database Password)
+LicenseKey= //The Opcon Key License. Necessary to apply the license (See instructions below - Conversions/OpCon License Key String)
 ```
 
 ### Optional (default values)
@@ -38,7 +39,7 @@ LicenseKey= //The Opcon Key License (See instructions below). Necessary to apply
 ContainerPrefix=opcon
 DatabaseName=OpConxps
 DatabaseUser=sa //This Docker Compose doesn't create specific user for now
-LicenseName=0 //Without the ".lic" extension
+LicenseName=0 //Name of License File Without the ".lic" extension
 MssqlVersion=2017-latest
 OpconVersion=19.1.0-latest
 ApiPort=9010 //Exposed Api Port; The Internal Container port (Localhost) stay 9010
@@ -46,6 +47,8 @@ SmWebSsl=true
 SmWebPort=8181
 MssqlPort=1433
 ```
+
+# Conversions
 
 ## Encrypted Database Password
 
@@ -59,17 +62,20 @@ How to generate key from file:
 - Linux: `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
 - Windows `certutil -encodehex <LIC_FILE> licensestring.txt 12`
 
-## Without Docker Compose
+# Alternative Deployments
 
-- Open docker.sh
-- Set the following Environment Variables: DOCKER_PATH, DatabasePassword, DatabasePasswordEncrypted and LicenseKey (Optional: DOCKER_OPCON_IMAGE_VERSION, DOCKER_MSSQL_IMAGE_VERSION, DataBaseName and LicenseName)
-- Run the docker.sh script
+## Docker Run (Without Docker Compose)
+
+[Docker Documentation](doc/docker.md)
 
 ## Azure App Service
 
-Docker Compose: [docker-compose-azure-app-service.yml](docker-compose-azure-app-service.yml)
+### How to deploy Opcon App Service on Azure Portal
+[Docker Compose Azure App Service Documentation](doc/docker-compose-azure-app-service.md)
 
- How to deploy Opcon App Service on Azure Portal: [Docker Compose Azure App Service Documentation](doc/docker-compose-azure-app-service.md)
+### Docker Compose File
+ 
+[docker-compose-azure-app-service.yml](docker-compose-azure-app-service.yml)
 
 # License
 Copyright 2019 SMA Technologies
