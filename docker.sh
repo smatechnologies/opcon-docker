@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DOCKER_PATH=C:/docker
-DOCKER_OPCON_IMAGE_VERSION=19.1.0-latest
+DOCKER_OPCON_IMAGE_VERSION=19.1.1-latest
 DOCKER_MSSQL_IMAGE_VERSION=2017-latest
 
 DatabasePassword=
