@@ -3,13 +3,13 @@ networks:
   default:
     name: ${ContainerPrefix:-opcon}-network
 services:
-  mssql:
+  opcon-mssql:
     image: mcr.microsoft.com/mssql/server:${MssqlVersion:-2017-latest}
     container_name: ${ContainerPrefix:-opcon}-mssql
     hostname: ${ContainerPrefix:-opcon}-mssql
     volumes:
       - type: volume
-        source: opcon-data
+        source: opcon-mssql
         target: /var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
@@ -17,7 +17,7 @@ services:
     ports:
       - "${MssqlPort:-1433}:1433"
     restart: always
-  opcon:
+  opcon-core:
     image: smaengineering.azurecr.io/opcon:${OpconVersion:-19.1.1-latest}
     container_name: ${ContainerPrefix:-opcon}-core
     hostname: ${ContainerPrefix:-opcon}-core
@@ -42,4 +42,5 @@ services:
       - "${SmWebPort:-8181}:${SmWebPort:-8181}"
     restart: always
 volumes:
-  opcon-data:
+  opcon-mssql:
+    name: ${ContainerPrefix:-opcon}-mssql
