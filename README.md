@@ -40,6 +40,7 @@ LicenseKey= //The Opcon Key License. Necessary to apply the license (See instruc
 
 ```
 ContainerPrefix=opcon
+OpconHostname=opcon-core
 DatabaseName=OpConxps
 DatabaseUser=sa //This Docker Compose doesn't create specific user for now
 LicenseName=0 //Name of License File Without the ".lic" extension
@@ -49,6 +50,7 @@ ApiPort=9010 //Exposed Api Port; The Internal Container port (Localhost) stay 90
 SmWebSsl=true
 SmWebPort=8181
 MssqlPort=1433
+Timezone=UTC
 ```
 
 # Alternative Deployments

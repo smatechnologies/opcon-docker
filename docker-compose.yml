@@ -20,7 +20,7 @@ services:
   opcon-core:
     image: smaengineering.azurecr.io/opcon:${OpconVersion:-19.1.1-latest}
     container_name: ${ContainerPrefix:-opcon}-core
-    hostname: ${ContainerPrefix:-opcon}-core
+    hostname: ${OpconHostname:-opcon-core}
     depends_on:
       - opcon-mssql
     environment:
