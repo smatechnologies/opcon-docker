@@ -22,7 +22,7 @@ services:
     container_name: ${ContainerPrefix:-opcon}-core
     hostname: ${ContainerPrefix:-opcon}-core
     depends_on:
-      - mssql
+      - opcon-mssql
     environment:
       - DatabaseName=${DatabaseName:-OpConxps}
       - OpConxpsDBServerName=${ContainerPrefix:-opcon}-mssql
