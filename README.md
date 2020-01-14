@@ -41,6 +41,7 @@ LicenseKey= //The Opcon Key License. Necessary to apply the license (See instruc
 ```
 ContainerPrefix=opcon
 OpconHostname=opcon-core
+MssqlHostname=opcon-mssql
 DatabaseName=OpConxps
 DatabaseUser=sa //This Docker Compose doesn't create specific user for now
 LicenseName=0 //Name of License File Without the ".lic" extension

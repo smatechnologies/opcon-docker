@@ -6,7 +6,7 @@ services:
   opcon-mssql:
     image: mcr.microsoft.com/mssql/server:${MssqlVersion:-2017-latest}
     container_name: ${ContainerPrefix:-opcon}-mssql
-    hostname: ${ContainerPrefix:-opcon}-mssql
+    hostname: ${MssqlHostname:-opcon-mssql}
     volumes:
       - type: volume
         source: opcon-mssql
