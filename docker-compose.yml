@@ -14,6 +14,7 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${DatabasePassword:?DatabasePassword}
+      - TZ=${Timezone:-UTC}
     ports:
       - "${MssqlPort:-1433}:1433"
     restart: always
