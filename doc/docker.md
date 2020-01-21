@@ -1,39 +1,35 @@
 # Docker Run/Create #
 
-## Parameters
-
-| Parameter       | Requires      | Description                  |
-| --------------- | ------------- | ---------------------------- |
-| -t \<timezone>  |               | Timezone ("Europe/Paris", "America/Chicago", ...) <br> See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
-| -c              |               |Generate the certificate      |
-| -d              | -u \<dbUser> <br> -p \<dbPwd> <br> var OpConxpsSQLInstance <br> var DatabaseName <br> var PathToDatabaseDataFile (Create only) <br> var  PathToDatabaseLogFile (Create only) <br> var DBLogicalDataFilename (Create only) <br> var DBLogicalLogFilename (Create only) | Create/Update Database |
-| -D              | *See -d*      | Force Create/Update Database |
-| -u \<dbUser>    |               | Database Username. <br> Necessary to create the "SMAODBCConfiguration.DAT" configuration file* |  
-| -p \<dbPwd>     |               | Database Password.           |
-| -P \<dbEncrPwd> |               | DataBase Encrypted Password. <br> Necessary to create the "SMAODBCConfiguration.DAT" configuration file* |
-| -l \<licKey>    | -L (if not 0) | The Opcon Key License. Necessary to apply the license <br> Applied only the first start after the container creation |
-| -L \<licName>   |               | Name of License File Without the ".lic" extension (Automatically set to 0 if not defined) |
-| -n              |               | Do not start services        |
-
-\* Requirement to automatically generate the "config/SMAODBCConfiguration.DAT" (if not exists):
- - -u \<dbUser>
- - -P \<dbEncrPwd>  
- - var OpConxpsDBServerName
- - var DatabaseName
-
 ## Environment Variables
 
-| Variable               | Default       | Description                         |
-| ---------------------- | ------------- | ----------------------------------- |
-| DatabaseName           |               | Database Name                       |
-| OpConxpsDBServerName   |               | The name of the Database Server     |
-| OpConxpsSQLInstance    |               | The Instance of the Database Server |
-| DBLogicalDataFilename  | OpConxps_Data | Name of the Database Data File      | 
-| DBLogicalLogFilename   | OpConxps_Log  | Name of the Database Log File       |
-| PathToDatabaseDataFile |               | Path of the Database Data File <br> i.e.: /var/opt/mssql/data/OpConxps_Data.MDF |
-| PathToDatabaseLogFile  |               | Path of the Database Log File <br> i.e.: /var/opt/mssql/data/OpConxps_Log.LDF |
-| SmWebSsl               | true          | Enable Solution Manager SSL <br> Applied only the first start after the container creation |
-| SmWebPort              | 8181          | Solution Manager Port <br> Applied only the first start after the container creation |
+| Variable                   | Default       | Description                         |
+| -------------------------- | ------------- | ----------------------------------- |
+| SQL_ADMIN_USER             |               | The user that runs the DB upgrade scripts. |
+| SQL_ADMIN_PASSWORD         |               | The DB upgrade script user's password. |
+| DB_SERVER_NAME             |               | **Required:** SQL Server instance name. |
+| DATABASE_NAME              |               | **Required:** OpCon Database name. |
+| SQL_AUTH                   | true          | Specifies if SQL authentication is used or Windows authentication. |
+| DB_USER_NAME               |               | **Required:** Database user used by OpCon services. |
+| DB_PASSWORD                |               | **Required:** Password of database user used by OpCon services. |
+| DB_CONFIGURATION           | None          | Additional configuration. Values allowed AlwaysON, Mirroring or None. |
+| DB_SETUP                   | false         | Specifies if database upgrade should be run before starting OpCon services. |
+| NO_RUN                     | false         | Specifies if OpCon services should start or not (e.g. upgrade DB without starting services). |
+| DB_LOGICAL_DATA_FILENAME   | OpConxps_Data | Database data file name. |
+| PATH_TO_DATABASE_DATA_FILE | C:\Program Files\Microsoft SQL<br>Server\MSSQL14.MSSQLSERVER<br>\MSSQL\DATA\OpConxps_Data.MDF | Path to data file. |
+| DB_LOGICAL_LOG_FILENAME    | OpConxps_Log  | Database log file name. |
+| PATH_TO_DATABASE_LOG_FILE  | C:\Program Files\Microsoft SQL<br>Server\MSSQL14.MSSQLSERVER<br>\MSSQL\DATA\OpConxps_Log.MDF | Path to log file. |
+| SMTP_SERVER_NAME           |               | SMTP server name. |
+| NOTIFY_EMAIL_ADDRESS       |               | Notify handler email. |
+| NOTIFY_DOMAIN_NAME         |               | Notify domain name. |
+| CREATE_API_CERTIFICATE     | false         | Specifies if a self signed certificate must be created for the API before startup. |
+| API_USES_TLS               | true          | Specifies if API should use TLS. |
+| API_CERTIFICATE_PATH       |               | Path where API certificate file (PFX) is located. |
+| API_CERTIFICATE_PASSWORD   |               | Password to access certificate (PFX) file. |
+| SM_WEB_SSL                 | true          | Specifies if Solution Manager uses TLS. |
+| SM_WEB_PORT                | 8181          | Specifies port used by Solution Manager. |
+| TZ                         | UTC           | Timezone of the container. |
+| LICENSE_KEY                |               | OpCon license key. Applied only on first start. |
+| LICENSE_NAME               | 0             | Name of license file without ".lic" extension. |
 
 ## Example
 
