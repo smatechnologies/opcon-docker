@@ -25,48 +25,31 @@ Note: *You must be on the same directory as your docker-compose.yml file*
 ### Madantory
 
 ```
-VolumePath=c:/opcon-docker //Location of all the container data
-DatabasePassword= //Opcon DataBase Password
+VOLUME_PATH=c:/opcon-docker //Location of all the container data
+DB_PASSWORD= //Opcon DataBase Password
 ```
 
 ### Recommended
 
 ```
-DatabasePasswordEncrypted= //Opcon DataBase Encrypted Password. Necessary to create the "SMAODBCConfiguration.DAT" configuration file (See instructions below - Conversions/Encrypted Database Password)
-LicenseKey= //The Opcon Key License. Necessary to apply the license (See instructions below - Conversions/OpCon License Key String)
+LICENSE_KEY= //The Opcon Key License. Necessary to apply the license (See instructions below - Conversions/OpCon License Key String)
+TZ=UTC //The Timezone
 ```
 
-### Optional (default values)
+### Optional
 
-```
-ContainerPrefix=opcon
-OpconHostname=opcon-core
-MssqlHostname=opcon-mssql
-DatabaseName=OpConxps
-DatabaseUser=sa //This Docker Compose doesn't create specific user for now
-LicenseName=0 //Name of License File Without the ".lic" extension
-MssqlVersion=2017-latest
-OpconVersion=19.1.0-latest
-ApiPort=9010 //Exposed Api Port; The Internal Container port (Localhost) stay 9010
-SmWebSsl=true
-SmWebPort=8181
-MssqlPort=1433
-Timezone=UTC
-```
+Please see the full Docker Image Documentation about additional environment variables:
+- [OpCon Image Documentation](doc/docker.md)
 
 # Alternative Deployments
 
 ## Docker Run (Without Docker Compose)
-See an example below on how to use the Docker command directly :
-```
-docker run -d --name "opcon-core" --hostname "opcon-core" --restart=always -e "DatabaseName=OpCon" -e "OpConxpsDBServerName=opcon-mssql" -e "OpConxpsSQLInstance=opcon-mssql" -e "DBLogicalDataFilename=OpCon_Data" -e "DBLogicalLogFilename=OpCon_Log" -e "PathToDatabaseDataFile=/var/opt/mssql/data/OpCon_Data.MDF" -e "PathToDatabaseLogFile=/var/opt/mssql/data/OpCon_Log.LDF" -v /var/opt/opcon/config:/app/config -v /var/opt/opcon/log:/app/log -p 9010:9010 -p 8181:8181 smaengineering.azurecr.io/opcon:19.1.0-latest -t "UTC" -c -d -u "sa" -p "DATABASE_PASSWORD" -P "DATABASE_PASSWORD_ENCRYPTED" -l "HEXA_LIC_KEY" -L "LICENSE_ID"
-```
-Full docker image documentation (Arguments, Environment Variables...):
+
 - [OpCon Image Documentation](doc/docker.md)
 
-You can also take a look at the **[docker.sh](docker.sh)** which uses the docker command directly.
+You can also take a look at the **[docker.sh](docker.sh)** which uses the docker command directly. (Doesn't work with the latest Opcon Image)
 
-## Azure App Service
+## Azure App Service (Doesn't work with the latest Opcon Image)
 
 ### How to deploy Opcon App Service on Azure Portal
 - [Docker Compose Azure App Service Documentation](doc/docker-compose-azure-app-service.md)
@@ -75,12 +58,6 @@ You can also take a look at the **[docker.sh](docker.sh)** which uses the docker
 - [docker-compose-azure-app-service.yml](docker-compose-azure-app-service.yml)
 
 # Miscellaneous
-
-## Encrypted Database Password
-
-How to encrypte a password:
-- Open Enterprise Manager application
-- Menu EnterpriseManager/Password Update/Password Encryption Tool
 
 ## OpCon License Key String
 

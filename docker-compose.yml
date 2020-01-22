@@ -1,47 +1,63 @@
 ﻿version: '3.7'
 networks:
   default:
-    name: ${ContainerPrefix:-opcon}-network
+    name: ${CONTAINER_PREFIX:-opcon}-network
 services:
   opcon-mssql:
-    image: mcr.microsoft.com/mssql/server:${MssqlVersion:-2017-latest}
-    container_name: ${ContainerPrefix:-opcon}-mssql
-    hostname: ${MssqlHostname:-opcon-mssql}
+    image: mcr.microsoft.com/mssql/server:${MSSQL_VERSION:-2017-latest}
+    container_name: ${CONTAINER_PREFIX:-opcon}-mssql
+    hostname: ${MSSQL_HOSTNAME:-opcon-mssql}
     volumes:
       - type: volume
         source: opcon-mssql
         target: /var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=${DatabasePassword:?DatabasePassword}
-      - TZ=${Timezone:-UTC}
+      - SA_PASSWORD=${DB_PASSWORD:?DB_PASSWORD}
+      - TZ=${TZ:-UTC}
     ports:
-      - "${MssqlPort:-1433}:1433"
+      - "${MSSQL_PORT:-1433}:1433"
     restart: always
   opcon-core:
-    image: smaengineering.azurecr.io/opcon:${OpconVersion:-19.1.1-latest}
-    container_name: ${ContainerPrefix:-opcon}-core
-    hostname: ${OpconHostname:-opcon-core}
+    image: smaengineering.azurecr.io/opcon:${OPCON_VERSION:-19.1.1-latest}
+    container_name: ${CONTAINER_PREFIX:-opcon}-core
+    hostname: ${OPCON_HOSTNAME:-opcon-core}
     depends_on:
       - opcon-mssql
     environment:
-      - DatabaseName=${DatabaseName:-OpConxps}
-      - OpConxpsDBServerName=${ContainerPrefix:-opcon}-mssql
-      - OpConxpsSQLInstance=${ContainerPrefix:-opcon}-mssql
-      - DBLogicalDataFilename=${DatabaseName:-OpConxps}_Data
-      - DBLogicalLogFilename=${DatabaseName:-OpConxps}_Log
-      - PathToDatabaseDataFile=/var/opt/mssql/data/${DatabaseName:-OpConxps}_Data.MDF
-      - PathToDatabaseLogFile=/var/opt/mssql/data/${DatabaseName:-OpConxps}_Log.LDF
-      - SmWebSsl=${SmWebSsl}
-      - SmWebPort=${SmWebPort}
+      - SQL_ADMIN_USER=sa
+      - SQL_ADMIN_PASSWORD=${DB_PASSWORD}
+      - SQL_AUTH=${SQL_AUTH}
+      - DB_USER_NAME=sa
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SERVER_NAME=${CONTAINER_PREFIX:-opcon}-mssql
+      - DATABASE_NAME=${DATABASE_NAME:-OpConxps}
+      - DB_CONFIGURATION=${DB_CONFIGURATION}
+      - DB_SETUP=${DB_SETUP:-true}
+      - DB_LOGICAL_DATA_FILENAME=${DB_LOGICAL_DATA_FILENAME}
+      - PATH_TO_DATABASE_DATA_FILE=/var/opt/mssql/data/${DATABASE_NAME:-OpConxps}_Data.MDF
+      - DB_LOGICAL_LOG_FILENAME=${DB_LOGICAL_LOG_FILENAME}
+      - PATH_TO_DATABASE_LOG_FILE=/var/opt/mssql/data/${DATABASE_NAME:-OpConxps}_Log.MDF
+      - SMTP_SERVER_NAME=${SMTP_SERVER_NAME}
+      - NOTIFY_EMAIL_ADDRESS=${NOTIFY_EMAIL_ADDRESS}
+      - NOTIFY_DOMAIN_NAME=${NOTIFY_DOMAIN_NAME}
+      - CREATE_API_CERTIFICATE=${CREATE_API_CERTIFICATE:-true}
+      - API_USES_TLS=${API_USES_TLS}
+      - API_CERTIFICATE_PATH=${API_CERTIFICATE_PATH}
+      - API_CERTIFICATE_PASSWORD=${API_CERTIFICATE_PASSWORD}
+      - SM_WEB_SSL=${SM_WEB_SSL}
+      - SM_WEB_PORT=${SM_WEB_PORT}
+      - TZ=${TZ:-UTC}
+      - LICENSE_KEY=${LICENSE_KEY}
+      - LICENSE_NAME=${LICENSE_NAME}
+      - NO_RUN=${NO_RUN}
     volumes:
-      - $VolumePath/core/config:/app/config
-      - $VolumePath/core/log:/app/log
-    command: [ "-t", "${Timezone:-UTC}", "-c", "-d", "-u", "${DatabaseUser:-sa}", "-p", "${DatabasePassword}", "-P", "${DatabasePasswordEncrypted}", "-l", "${LicenseKey}", "-L", "${LicenseName:-0}" ]
+      - $VOLUME_PATH/core/config:/app/config
+      - $VOLUME_PATH/core/log:/app/log
     ports:
-      - "${ApiPort:-9010}:9010"
-      - "${SmWebPort:-8181}:${SmWebPort:-8181}"
+      - "${API_PORT:-9010}:9010"
+      - "${SM_WEB_PORT:-8181}:${SM_WEB_PORT:-8181}"
     restart: always
 volumes:
   opcon-mssql:
-    name: ${ContainerPrefix:-opcon}-mssql
+    name: ${CONTAINER_PREFIX:-opcon}-mssql
