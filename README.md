@@ -47,7 +47,7 @@ Please see the full Docker Image Documentation about additional environment vari
 
 - [OpCon Image Documentation](doc/docker.md)
 
-You can also take a look at the **[docker.sh](docker.sh)** which uses the docker command directly. (Doesn't work with the latest Opcon Image)
+You can also take a look at the **[docker.sh](docker.sh)** which uses the docker command directly.
 
 ## Azure App Service (Doesn't work with the latest Opcon Image)
 
