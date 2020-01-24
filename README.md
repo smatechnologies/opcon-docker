@@ -32,7 +32,7 @@ DB_PASSWORD= //Opcon DataBase Password
 ### Recommended
 
 ```
-LICENSE_KEY= //The Opcon Key License. Necessary to apply the license (See instructions below - Conversions/OpCon License Key String)
+LICENSE= //The Opcon Key License. Necessary to apply the license (See instructions below - Conversions/OpCon License Key String)
 TZ=UTC //The Timezone
 ```
 
@@ -62,8 +62,8 @@ You can also take a look at the **[docker.sh](docker.sh)** which uses the docker
 ## OpCon License Key String
 
 How to generate key from file:
-- Linux: `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"'`
-- Windows `certutil -encodehex <LIC_FILE> licensestring.txt 12`
+- Linux: `cat <LIC_FILE> | hexdump -ve '16/1 "%02x"' | sed 's/.*/<LIC_FILE_WITHOUT_LIC_EXT>:\0/'`
+- Windows `certutil -encodehex <LIC_FILE> key.tmp 12 >NUL && echo|set /p="<LIC_FILE_WITHOUT_LIC_EXT>:" || type key.tmp && del key.tmp`
 
 # License
 Copyright 2019 SMA Technologies
