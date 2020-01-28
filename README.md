@@ -22,7 +22,7 @@ Note: *You must be on the same directory as your docker-compose.yml file*
 
 ## Environment Variables
 
-### Madantory
+### Mandatory
 
 ```
 VOLUME_PATH=c:/opcon-docker //Location of all the container data
@@ -36,9 +36,18 @@ LICENSE= //The Opcon Key License. Necessary to apply the license (See instructio
 TZ=UTC //The Timezone
 ```
 
-### Optional
+### Optional (with default Values)
 
-Please see the full Docker Image Documentation about additional environment variables:
+```
+CONTAINER_PREFIX=opcon
+OPCON_REPOSITORY=aydesai/opcon (smaengineering.azurecr.io/opcon for Development)
+OPCON_VERSION=19.1.1-prerelease
+MSSQL_VERSION=2017-latest
+MSSQL_HOSTNAME=opcon-mssql
+OPCON_HOSTNAME=opcon-core
+```
+
+Please see the full Docker Image Documentation about environment variables of Opcon Image:
 - [OpCon Image Documentation](doc/docker.md)
 
 # Alternative Deployments
