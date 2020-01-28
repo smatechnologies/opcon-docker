@@ -17,7 +17,7 @@
 | DB_LOGICAL_DATA_FILENAME    | OpConxps_Data | Database data file name. |
 | PATH_TO_DATABASE_DATA_FILE  | C:\Program Files\Microsoft SQL<br>Server\MSSQL14.MSSQLSERVER<br>\MSSQL\DATA\OpConxps_Data.MDF | Path to data file. |
 | DB_LOGICAL_LOG_FILENAME     | OpConxps_Log  | Database log file name. |
-| PATH_TO_DATABASE_LOG_FILE   | C:\Program Files\Microsoft SQL<br>Server\MSSQL14.MSSQLSERVER<br>\MSSQL\DATA\OpConxps_Log.MDF | Path to log file. |
+| PATH_TO_DATABASE_LOG_FILE   | C:\Program Files\Microsoft SQL<br>Server\MSSQL14.MSSQLSERVER<br>\MSSQL\DATA\OpConxps_Log.LDF | Path to log file. |
 | SMTP_SERVER_NAME            |               | SMTP server name. |
 | NOTIFY_EMAIL_ADDRESS        |               | Notify handler email. |
 | NOTIFY_DOMAIN_NAME          |               | Notify domain name. |
