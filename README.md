@@ -45,6 +45,7 @@ OPCON_VERSION=19.1.1-prerelease
 MSSQL_VERSION=2017-latest
 MSSQL_HOSTNAME=opcon-mssql
 OPCON_HOSTNAME=opcon-core
+API_PORT=9010
 ```
 
 Please see the full Docker Image Documentation about environment variables of Opcon Image:
