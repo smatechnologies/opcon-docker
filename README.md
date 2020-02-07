@@ -40,7 +40,7 @@ TZ=UTC //The Timezone
 
 ```
 CONTAINER_PREFIX=opcon
-OPCON_REPOSITORY=aydesai/opcon (smaengineering.azurecr.io/opcon for Development)
+OPCON_REPOSITORY=smatechnologies/opcon-server (smaengineering.azurecr.io/opcon for Development)
 OPCON_VERSION=19.1.1-prerelease
 MSSQL_VERSION=2017-latest
 MSSQL_HOSTNAME=opcon-mssql
