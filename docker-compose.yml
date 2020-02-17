@@ -1,4 +1,8 @@
-﻿version: '3.7'
+# Docker Compose file to spin up two preconfigured containers : MS SQL Server on Linux and OpCon Server.
+# You'll need to specify at least VOLUME_PATH and DB_PASSWORD env variables via .env file to get this running with defaults.
+#
+# Detailed instructions here : https://github.com/SMATechnologies/opcon-docker#docker-compose-instructions
+version: '3.7'
 networks:
   default:
     name: ${CONTAINER_PREFIX:-opcon}-network
