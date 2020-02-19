@@ -1,3 +1,4 @@
+#Deprecated - Opcon Image Version must be < 19.1
 #Replace #DATABASE_PASSWORD#, #DATABASE_PASSWORD_ENCRYPTED#, #LICENSE_KEY# and #LICENSE_NAME#
 version: '3.7'
 services:

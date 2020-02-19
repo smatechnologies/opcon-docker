@@ -57,16 +57,6 @@ Please see the full Docker Image Documentation about environment variables of Op
 
 - [OpCon Image Documentation](https://hub.docker.com/r/smatechnologies/opcon-server)
 
-You can also take a look at the **[docker.sh](docker.sh)** which uses the docker command directly.
-
-## Azure App Service (Doesn't work with the latest Opcon Image)
-
-### How to deploy Opcon App Service on Azure Portal
-- [Docker Compose Azure App Service Documentation](doc/docker-compose-azure-app-service.md)
-
-### Docker Compose File for Azure App
-- [docker-compose-azure-app-service.yml](docker-compose-azure-app-service.yml)
-
 # Miscellaneous
 
 ## OpCon License Key String

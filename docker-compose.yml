@@ -1,3 +1,5 @@
+# Version: 1.0.0
+#
 # Docker Compose file to spin up two preconfigured containers : MS SQL Server on Linux and OpCon Server.
 # You'll need to specify at least VOLUME_PATH and DB_PASSWORD env variables via .env file to get this running with defaults.
 #
@@ -29,10 +31,10 @@ services:
     depends_on:
       - opcon-mssql
     environment:
-      - SQL_ADMIN_USER=sa
+      - SQL_ADMIN_USER=${SQL_ADMIN_USER:-sa}
       - SQL_ADMIN_PASSWORD=${DB_PASSWORD}
       - SQL_AUTH=${SQL_AUTH}
-      - DB_USER_NAME=sa
+      - DB_USER_NAME=${DB_USER_NAME:-opconsam}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_SERVER_NAME=${CONTAINER_PREFIX:-opcon}-mssql
       - DATABASE_NAME=${DATABASE_NAME:-OpConxps}
