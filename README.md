@@ -13,6 +13,12 @@ SMA Technologies assumes no liability for damage caused by the usage of any of t
 - Docker Engine 18.06.0+
 - Docker Compose 1.22+ (Compose File Format 3.7)
 
+# Compatibility
+
+| Docker-Compose Version  | OpCon Version  |
+|---|---|
+| 1.0.0 | 19.1.1+  |
+
 # Docker-Compose Instructions
 Grab the **[docker-compose.yml](docker-compose.yml)** file, define your environment variables via the **.env** file and then run the following command to start MS SQL and OpCon Server containers.
 ```
