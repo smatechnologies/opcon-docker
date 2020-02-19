@@ -16,8 +16,9 @@ SMA Technologies assumes no liability for damage caused by the usage of any of t
 # Compatibility
 
 | Docker-Compose Version  | OpCon Version  |
-|---|---|
-| 1.0.0 | 19.1.1+  |
+|-------------------------|----------------|
+| 1.0.0                   | 19.1.1+        |
+| 1.0.1                   | 19.1.1+        |
 
 # Docker-Compose Instructions
 Grab the **[docker-compose.yml](docker-compose.yml)** file, define your environment variables via the **.env** file and then run the following command to start MS SQL and OpCon Server containers.
@@ -26,12 +27,19 @@ docker-compose up
 ```
 Note: *You must be on the same directory as your docker-compose.yml file*
 
+**Single Line Command Execution:**
+
+```
+curl -L https://raw.githubusercontent.com/SMATechnologies/opcon-docker/1.0.1/docker-compose.yml --output docker-compose.yml | SQL_ADMIN_PASSWORD=MssqlP@ssWord42 DB_PASSWORD=OpconP@ssWord42 VOLUME_PATH=/tmp/opcon docker-compose up
+```
+
 ## Environment Variables
 
 ### Mandatory
 
 ```
 VOLUME_PATH=c:/opcon-docker //Location of all the container data
+SQL_ADMIN_PASSWORD= //MSSQL SA Password
 DB_PASSWORD= //Opcon DataBase Password
 ```
 
