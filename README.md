@@ -30,7 +30,7 @@ Note: *You must be on the same directory as your docker-compose.yml file*
 **Single Line Command Execution:**
 
 ```
-curl -L https://raw.githubusercontent.com/SMATechnologies/opcon-docker/1.0.1/docker-compose.yml --output docker-compose.yml && SQL_ADMIN_PASSWORD=MssqlP@ssWord42 DB_PASSWORD=OpconP@ssWord42 VOLUME_PATH=/tmp/opcon docker-compose up
+curl -L https://raw.githubusercontent.com/SMATechnologies/opcon-docker/1.0.2/docker-compose.yml --output docker-compose.yml && SQL_ADMIN_PASSWORD=MssqlP@ssWord42 DB_PASSWORD=OpconP@ssWord42 VOLUME_PATH=/tmp/opcon docker-compose up
 ```
 
 ## Environment Variables
