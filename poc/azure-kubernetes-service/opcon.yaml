@@ -53,7 +53,7 @@ spec:
         - name: ACCEPT_EULA
           value: "Y"
         - name: SA_PASSWORD
-          value: 0pC0nxp$
+          value: XXXX
         image: mcr.microsoft.com/mssql/server:2017-latest
         name: mssql
         ports:
@@ -107,11 +107,11 @@ spec:
         - name: DB_USER_NAME
           value: "opconsam"
         - name: DB_PASSWORD
-          value: 0pC0nxp$
+          value: XXXX
         - name: SQL_ADMIN_USER
           value: "sa"
         - name: SQL_ADMIN_PASSWORD
-          value: 0pC0nxp$
+          value: XXXX
         - name: PATH_TO_DATABASE_DATA_FILE
           value: "/var/opt/mssql/data/OpConxps_Data.MDF"
         - name: PATH_TO_DATABASE_LOG_FILE
