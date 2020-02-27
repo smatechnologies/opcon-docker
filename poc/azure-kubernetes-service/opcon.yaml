@@ -1,0 +1,166 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opcondata
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opconconfig
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opconlog
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: mssql
+spec:
+  replicas: 1
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - sqlserver
+  template:
+    metadata:
+      labels:
+        app: sqlserver
+    spec:
+      containers:
+      - env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          value: XXXX
+        image: mcr.microsoft.com/mssql/server:2017-latest
+        name: mssql
+        ports:
+        - containerPort: 1433
+          protocol: TCP
+        volumeMounts:
+        - name: opcondata
+          mountPath: /var/opt/mssql
+      hostname: mssql
+      volumes:
+      - name: opcondata
+        persistentVolumeClaim:
+          claimName: opcondata
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql
+spec:
+  type: LoadBalancer
+  ports:
+  - name: sqlport
+    port: 1433
+    targetPort: 1433
+  selector:
+    app: sqlserver
+---
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: opcon
+spec:
+  replicas: 1
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - opconservices
+  template:
+    metadata:
+      labels:
+        app: opconservices
+    spec:
+      containers:
+      - env:
+        - name: DB_SERVER_NAME
+          value: "mssql"
+        - name: DATABASE_NAME
+          value: "OpConxps"
+        - name: DB_USER_NAME
+          value: "opconsam"
+        - name: DB_PASSWORD
+          value: XXXX
+        - name: SQL_ADMIN_USER
+          value: "sa"
+        - name: SQL_ADMIN_PASSWORD
+          value: XXXX
+        - name: PATH_TO_DATABASE_DATA_FILE
+          value: "/var/opt/mssql/data/OpConxps_Data.MDF"
+        - name: PATH_TO_DATABASE_LOG_FILE
+          value: "/var/opt/mssql/data/OpConxps_Log.LDF"
+        - name: CREATE_API_CERTIFICATE
+          value: "true"
+        - name: API_USES_TLS
+          value: "true"
+        - name: SM_DOC_DIR_PATH
+          value: "/app/documentation"
+        - name: DB_SETUP
+          value: "true"
+        - name: TZ
+          value: "America/Chicago"
+        - name: LICENSE
+          value: "0:414c484b040615081644696d2e28273a317e2a2a682d2d7f2a64642d636307681b1b56195d186c246d3e3e6e3c733466276a6a2968266827737331747426733d3d743a3a5e3142420f400441357d34670d0a256d24777727753a7d2f6e232360216f216e3a3a783d3d6f3a74743d737317780b0b46094d087c347d2e2e7e2c632476377a0d0a40524252435041574655475745555555555555554455425b4f5a485d4e5d4c5b4b5d4c584f5f495f4b594151475f495c485f5b4c5c4a5c0d0a414d5e4e5e52421e781d7c087b6965687925363a37267a6e626f7e22373b36277b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b"
+        image: smatechnologies/opcon-server:latest
+        name: opcon
+        ports:
+        - containerPort: 9010
+          protocol: TCP
+        - containerPort: 8181
+          protocol: TCP
+        volumeMounts:
+        - name: opconconfig
+          mountPath: /app/config
+        - name: opconlog
+          mountPath: /app/log
+      hostname: opcon
+      volumes:
+      - name: opconconfig
+        persistentVolumeClaim:
+          claimName: opconconfig
+      - name: opconlog
+        persistentVolumeClaim:
+          claimName: opconlog
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opcon
+spec:
+  type: LoadBalancer
+  ports:
+  - name: apiport
+    port: 9010
+    targetPort: 9010
+  - name: smport
+    port: 8181
+    targetPort: 8181
+  selector:
+    app: opconservices
