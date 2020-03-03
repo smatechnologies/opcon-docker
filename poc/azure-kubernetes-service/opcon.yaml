@@ -1,4 +1,38 @@
 apiVersion: v1
+kind: Secret
+metadata:
+  name: db-passwords
+stringData:
+  saPassword: "XXXX"
+  dbPassword: "XXXX"
+  sqlAdminPassword: "XXXX"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mssql-env
+data:
+  eula: "Y"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opcon-env
+data:
+  DB_SERVER_NAME: "mssql"
+  DATABASE_NAME: "OpConxps"
+  DB_USER_NAME: "opconsam"
+  SQL_ADMIN_USER: "sa"
+  PATH_TO_DATABASE_DATA_FILE: "/var/opt/mssql/data/OpConxps_Data.MDF"
+  PATH_TO_DATABASE_LOG_FILE: "/var/opt/mssql/data/OpConxps_Log.LDF"
+  CREATE_API_CERTIFICATE: "true"
+  API_USES_TLS: "true"
+  SM_DOC_DIR_PATH: "/app/documentation"
+  DB_SETUP: "true"
+  TZ: "America/Chicago"
+  LICENSE: "0:xxxxxxxxxxxx"
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: opcondata
@@ -51,9 +85,15 @@ spec:
       containers:
       - env:
         - name: ACCEPT_EULA
-          value: "Y"
+          valueFrom:
+            configMapKeyRef:
+              name: mssql-env
+              key: eula
         - name: SA_PASSWORD
-          value: XXXX
+          valueFrom:
+            secretKeyRef:
+              name: db-passwords
+              key: saPassword
         image: mcr.microsoft.com/mssql/server:2017-latest
         name: mssql
         ports:
@@ -100,34 +140,19 @@ spec:
     spec:
       containers:
       - env:
-        - name: DB_SERVER_NAME
-          value: "mssql"
-        - name: DATABASE_NAME
-          value: "OpConxps"
-        - name: DB_USER_NAME
-          value: "opconsam"
         - name: DB_PASSWORD
-          value: XXXX
-        - name: SQL_ADMIN_USER
-          value: "sa"
+          valueFrom:
+            secretKeyRef:
+              name: db-passwords
+              key: dbPassword
         - name: SQL_ADMIN_PASSWORD
-          value: XXXX
-        - name: PATH_TO_DATABASE_DATA_FILE
-          value: "/var/opt/mssql/data/OpConxps_Data.MDF"
-        - name: PATH_TO_DATABASE_LOG_FILE
-          value: "/var/opt/mssql/data/OpConxps_Log.LDF"
-        - name: CREATE_API_CERTIFICATE
-          value: "true"
-        - name: API_USES_TLS
-          value: "true"
-        - name: SM_DOC_DIR_PATH
-          value: "/app/documentation"
-        - name: DB_SETUP
-          value: "true"
-        - name: TZ
-          value: "America/Chicago"
-        - name: LICENSE
-          value: "0:414c484b040615081644696d2e28273a317e2a2a682d2d7f2a64642d636307681b1b56195d186c246d3e3e6e3c733466276a6a2968266827737331747426733d3d743a3a5e3142420f400441357d34670d0a256d24777727753a7d2f6e232360216f216e3a3a783d3d6f3a74743d737317780b0b46094d087c347d2e2e7e2c632476377a0d0a40524252435041574655475745555555555555554455425b4f5a485d4e5d4c5b4b5d4c584f5f495f4b594151475f495c485f5b4c5c4a5c0d0a414d5e4e5e52421e781d7c087b6965687925363a37267a6e626f7e22373b36277b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b"
+          valueFrom:
+            secretKeyRef:
+              name: db-passwords
+              key: sqlAdminPassword
+        envFrom:
+          - configMapRef:
+              name: opcon-env
         image: smatechnologies/opcon-server:latest
         name: opcon
         ports:

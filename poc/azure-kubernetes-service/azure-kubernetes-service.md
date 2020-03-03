@@ -16,23 +16,20 @@ From https://portal.azure.com:
 - You have created the hosting environment above, but you still need to install the CLI in order to talk to the environment.
 - You may use the Azure Cloud Shell (on portal.azure.com), where Kubernetes CLI is already installed. Or...
 - This example is for Windows, but will be similar for Linux:
-  - Download and install Azure CLI.
-  - Run: az aks install-cli (installs Kubernetes CLI)
-  - Run: az aks get-credentials --subscription Development --resource-group <ResourceGroup> --name <AKSName>\
-(records credentials for Kubernetes Service)
+  - Download and install Azure CLI (just search for it)
+  - Run: **`az aks install-cli`** (installs Kubernetes CLI)
+  - Run: **`az aks get-credentials --subscription Development --resource-group <ResourceGroup> --name <AKSName>`** (records credentials for Kubernetes Service)
 - This is all you need to prepare your environment to run OpCon in a Kubernetes cluster.
 
 # Run OpCon in the Cloud in a Kubernetes Cluster #
 
-- Run: kubectl create -f opcon.yaml\
-(This command takes the complete OpCon environment definition and submits it to Kubernetes Service)
+- Run: **`kubectl create -f opcon.yaml`** (This command takes the complete OpCon environment definition and submits it to Kubernetes Service)
 - To check status of OpCon service:
-  - Run: kubectl get svc opcon\
-(This command shows the status of OpCon service - make sure the "EXTERNAL_IP" gets a valid IP address)
-  - Run: kubectl get po\
-(This command shows the status of the pods themselves - make sure "opcon-xxxx" pod shows "Running" status)
-  - After 10 minutes or so, when "opcon-xxxx" is running and "opcon" service has valid external IP,\
-go to https://<External IP>:8181
+  - Run: **`kubectl get svc opcon`** (This command shows the status of OpCon service - make sure the "EXTERNAL_IP" gets a valid IP address)
+  - Run: **`kubectl get po`** (This command shows the status of the pods themselves - make sure "opcon-xxxx" pod shows "Running" status)
+  - Run: **`kubectl logs opcon-xxxx -c opcon`** (This command shows the logs from the container in the opcon pod)
+  - After 10 minutes or so, make sure near the end of the log it shows **"SMAOpConSolutionManager server is Started and Ready: `https://0.0.0.0:8181`"**
+  - Go to https://EXTERNAL_IP:8181
 
 # Some Things to Remember #
 
