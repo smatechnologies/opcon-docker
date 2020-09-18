@@ -1,4 +1,4 @@
-# Version: 1.0.5
+# Version: 1.0.6
 #
 # Docker Compose file to spin up two preconfigured containers : MS SQL Server on Linux and OpCon Server.
 # You'll need to specify at least VOLUME_PATH and DB_PASSWORD env variables via .env file to get this running with defaults.
