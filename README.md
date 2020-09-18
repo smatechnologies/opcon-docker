@@ -19,6 +19,10 @@ SMA Technologies assumes no liability for damage caused by the usage of any of t
 |-------------------------|----------------|
 | 1.0.0                   | 19.1.1+        |
 | 1.0.1                   | 19.1.1+        |
+| 1.0.2                   | 19.1.1+        |
+| 1.0.3                   | 19.1.1+        |
+| 1.0.4                   | 19.1.1+        |
+| 1.0.5                   | 20.0.0+        |
 
 # Docker-Compose Instructions
 Grab the **[docker-compose.yml](docker-compose.yml)** file, define your environment variables via the **.env** file and then run the following command to start MS SQL and OpCon Server containers.
