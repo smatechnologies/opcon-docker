@@ -65,7 +65,7 @@ spec:
     requests:
       storage: 100Mi
 ---
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: mssql
@@ -121,7 +121,7 @@ spec:
   selector:
     app: sqlserver
 ---
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: opcon
