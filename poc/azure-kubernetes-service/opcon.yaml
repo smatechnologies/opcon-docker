@@ -26,10 +26,9 @@ data:
   PATH_TO_DATABASE_DATA_FILE: "/var/opt/mssql/data/OpConxps_Data.MDF"
   PATH_TO_DATABASE_LOG_FILE: "/var/opt/mssql/data/OpConxps_Log.LDF"
   CREATE_API_CERTIFICATE: "true"
-  API_USES_TLS: "true"
-  SM_DOC_DIR_PATH: "/app/documentation"
   DB_SETUP: "true"
   TZ: "America/Chicago"
+  LANG: "en_US.utf-8"
   LICENSE: "0:xxxxxxxxxxxx"
 ---
 apiVersion: v1
@@ -156,9 +155,7 @@ spec:
         image: smatechnologies/opcon-server:latest
         name: opcon
         ports:
-        - containerPort: 9010
-          protocol: TCP
-        - containerPort: 8181
+        - containerPort: 443
           protocol: TCP
         volumeMounts:
         - name: opconconfig
@@ -183,9 +180,6 @@ spec:
   ports:
   - name: apiport
     port: 9010
-    targetPort: 9010
-  - name: smport
-    port: 8181
-    targetPort: 8181
+    targetPort: 443
   selector:
     app: opconservices
