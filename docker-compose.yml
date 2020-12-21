@@ -25,7 +25,7 @@ services:
       - "${MSSQL_PORT:-1433}:1433"
     restart: always
   opcon-core:
-    image: ${OPCON_REPOSITORY:-smatechnologies/opcon-server}:${OPCON_VERSION:-20.0-latest}
+    image: ${OPCON_REPOSITORY:-smatechnologies/opcon-server}:${OPCON_VERSION:-20.00-latest}
     container_name: ${CONTAINER_PREFIX:-opcon}-core
     hostname: ${OPCON_HOSTNAME:-opcon-core}
     depends_on:
