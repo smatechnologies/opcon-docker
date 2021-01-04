@@ -17,14 +17,8 @@ SMA Technologies assumes no liability for damage caused by the usage of any of t
 
 | Docker-Compose Version  | OpCon Version  |
 |-------------------------|----------------|
-| 1.0.0                   | 19.1.1+        |
-| 1.0.1                   | 19.1.1+        |
-| 1.0.2                   | 19.1.1+        |
-| 1.0.3                   | 19.1.1+        |
-| 1.0.4                   | 19.1.1+        |
-| 1.0.5                   | 20.0.0+        |
-| 1.0.6                   | 20.0.0+        |
-| 1.0.7                   | 20.0.0+        |
+| >=1.0.0                 | 19.1.1+        |
+| >=1.0.5                 | 20.0.0+        |
 
 # Docker-Compose Instructions
 Grab the **[docker-compose.yml](docker-compose.yml)** file, define your environment variables via the **.env** file and then run the following command to start MS SQL and OpCon Server containers.
@@ -35,14 +29,16 @@ Note: *You must be on the same directory as your docker-compose.yml file*
 
 **Single Line Command Execution**
 
+*Please replace **<TAG_VERSION>** with the correct one* (https://github.com/SMATechnologies/opcon-docker/tags)
+
 Linux / macOS:
 ```
-curl -L https://raw.githubusercontent.com/SMATechnologies/opcon-docker/1.0.6/docker-compose.yml --output docker-compose.yml && SQL_ADMIN_PASSWORD=MssqlP@ssWord42 DB_PASSWORD=OpconP@ssWord42 VOLUME_PATH=/tmp/opcon docker-compose up
+curl -L https://raw.githubusercontent.com/SMATechnologies/opcon-docker/<TAG_VERSION>/docker-compose.yml --output docker-compose.yml && SQL_ADMIN_PASSWORD=MssqlP@ssWord42 DB_PASSWORD=OpconP@ssWord42 VOLUME_PATH=/tmp/opcon docker-compose up
 ```
 
 Windows:
 ```
-curl -L https://raw.githubusercontent.com/SMATechnologies/opcon-docker/1.0.6/docker-compose.yml --output docker-compose.yml; $env:SQL_ADMIN_PASSWORD="MssqlP@ssWord42"; $env:DB_PASSWORD="OpconP@ssWord42"; $env:VOLUME_PATH="C:\OpCon\"; docker-compose up
+curl -L https://raw.githubusercontent.com/SMATechnologies/opcon-docker/<TAG_VERSION>/docker-compose.yml --output docker-compose.yml; $env:SQL_ADMIN_PASSWORD="MssqlP@ssWord42"; $env:DB_PASSWORD="OpconP@ssWord42"; $env:VOLUME_PATH="C:\OpCon\"; docker-compose up
 ```
 
 ## Environment Variables
