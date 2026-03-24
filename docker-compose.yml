@@ -1,7 +1,7 @@
-# Version: 1.0.6
+# Version: 1.0.7
 #
-# Docker Compose file to spin up two preconfigured containers : MS SQL Server on Linux and OpCon Server.
-# You'll need to specify at least VOLUME_PATH and DB_PASSWORD env variables via .env file to get this running with defaults.
+# Docker Compose file to spin up preconfigured containers : MS SQL Server on Linux, OpCon Server and Reporting Service.
+# You'll need to specify at least VOLUME_PATH, DB_PASSWORD, and REPORTING_DB_* env variables via .env file to get this running with defaults.
 #
 # Detailed instructions here : https://github.com/SMATechnologies/opcon-docker#docker-compose-instructions
 version: '3.7'
@@ -25,7 +25,7 @@ services:
       - "${MSSQL_PORT:-1433}:1433"
     restart: always
   opcon-core:
-    image: ${OPCON_REPOSITORY:-smatechnologies/opcon-server}:${OPCON_VERSION:-20.00-latest}
+    image: ${OPCON_REPOSITORY:-smatechnologies/opcon-server}:${OPCON_VERSION:-26.0-latest}
     container_name: ${CONTAINER_PREFIX:-opcon}-core
     hostname: ${OPCON_HOSTNAME:-opcon-core}
     depends_on:
@@ -55,11 +55,31 @@ services:
       - LICENSE=${LICENSE}
       - ENABLE_LDAPMON=${ENABLE_LDAPMON}
       - NO_RUN=${NO_RUN}
+      - REPORTING_DB_SERVER_NAME=${REPORTING_DB_SERVER_NAME}
+      - REPORTING_DB_PORT=${REPORTING_DB_PORT:-1433}
+      - REPORTING_DATABASE_NAME=${REPORTING_DATABASE_NAME}
+      - REPORTING_DB_USER_NAME=${REPORTING_DB_USER_NAME}
+      - REPORTING_DB_PASSWORD=${REPORTING_DB_PASSWORD}
     volumes:
       - $VOLUME_PATH/core/config:/app/config
       - $VOLUME_PATH/core/log:/app/log
     ports:
       - "${WEB_PORT:-443}:443"
+    restart: always
+  reportingservice:
+    image: ${REPORTING_REPOSITORY:-smatechnologies/reportingservice}:${REPORTING_VERSION:-26.0-latest}
+    container_name: ${CONTAINER_PREFIX:-opcon}-reportingservice
+    hostname: ${REPORTING_HOSTNAME:-opcon-reportingservice}
+    depends_on:
+      - opcon-core
+    environment:
+      - ConnectionStrings__OpConDb=Server=${DB_SERVER_NAME:-${CONTAINER_PREFIX:-opcon}-mssql},${MSSQL_PORT:-1433};Database=${DATABASE_NAME:-OpConxps};User Id=${DB_USER_NAME:-opconsam};Password=${DB_PASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__ReportingDb=Server=${REPORTING_DB_SERVER_NAME},${REPORTING_DB_PORT:-1433};Database=${REPORTING_DATABASE_NAME};User Id=${REPORTING_DB_USER_NAME};Password=${REPORTING_DB_PASSWORD};TrustServerCertificate=True;
+      - TZ=${TZ:-UTC}
+    volumes:
+      - $VOLUME_PATH/reportingservice/log:/app/log
+    ports:
+      - "${REPORTING_PORT:-9014}:443"
     restart: always
 volumes:
   opcon-mssql:
