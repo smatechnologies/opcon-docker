@@ -19,6 +19,7 @@ SMA Technologies assumes no liability for damage caused by the usage of any of t
 |-------------------------|----------------|
 | >=1.0.0                 | 19.1.1+        |
 | >=1.0.5                 | 20.0.0+        |
+| >=1.0.7                 | 26.0.0+        |
 
 # Docker-Compose Instructions
 Grab the **[docker-compose.yml](docker-compose.yml)** file, define your environment variables via the **.env** file and then run the following command to start MS SQL and OpCon Server containers.
@@ -49,6 +50,10 @@ curl -L https://raw.githubusercontent.com/SMATechnologies/opcon-docker/<TAG_VERS
 VOLUME_PATH=c:/opcon-docker //Location of all the container data
 SQL_ADMIN_PASSWORD= //MSSQL SA Password
 DB_PASSWORD= //Opcon DataBase Password
+REPORTING_DB_SERVER_NAME= //Reporting Database Server Name
+REPORTING_DATABASE_NAME= //Reporting Database Name
+REPORTING_DB_USER_NAME= //Reporting Database User Name
+REPORTING_DB_PASSWORD= //Reporting Database Password
 ```
 
 ### Recommended
@@ -63,11 +68,16 @@ TZ=UTC //The Timezone
 ```
 CONTAINER_PREFIX=opcon
 OPCON_REPOSITORY=smatechnologies/opcon-server (smaengineering.azurecr.io/opcon for Development)
-OPCON_VERSION=19.1.1-prerelease
+OPCON_VERSION=26.0-latest
 MSSQL_VERSION=2017-latest
 MSSQL_HOSTNAME=opcon-mssql
 OPCON_HOSTNAME=opcon-core
 WEB_PORT=443 (<1.0.6: API_PORT=9010)
+REPORTING_REPOSITORY=smatechnologies/reportingservice
+REPORTING_VERSION=26.0-latest
+REPORTING_HOSTNAME=opcon-reportingservice
+REPORTING_PORT=9014
+REPORTING_DB_PORT=1433
 ```
 
 Please see the full Docker Image Documentation about environment variables of Opcon Image:
